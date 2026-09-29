@@ -1,0 +1,23 @@
+[Unit]
+Description=AGL LiDAR Demo backend (rosbridge + rosbag replay)
+Documentation=https://github.com/shauryarane05/agl-lidar-hmi-app
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# ros2 CLI needs a home directory to resolve $ROS_HOME/log; systemd does not
+# export HOME for system services, so set it (and keep node logs off the
+# read-mostly rootfs) explicitly.
+Environment=HOME=/root
+Environment=ROS_HOME=/root/.ros
+Environment=ROS_LOG_DIR=/tmp/roslog
+# Starts a local rosbridge on :9090 and loop-plays the shipped bag, so the
+# Flutter HMI (launched from the app tile) has a data source to connect to on
+# ws://127.0.0.1:9090. See /usr/bin/agl-lidar-demo.sh (installed by the recipe).
+ExecStart=/usr/bin/agl-lidar-demo.sh
+Restart=on-failure
+RestartSec=2s
+
+[Install]
+WantedBy=multi-user.target
