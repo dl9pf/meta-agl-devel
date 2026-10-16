@@ -1,7 +1,0 @@
-# SPDX-License-Identifier: MIT
-# target: [feature, feature, ...] - see meta-agl/kas/images.yaml for the full format note.
-lxc-host-image-minimal: [agl-drm-lease, agl-ic, agl-pipewire, agl-selinux]
-agl-host-image-drm-lease-test: [agl-drm-lease, agl-ic, agl-pipewire, agl-selinux]
-agl-instrument-cluster-container-demo: [agl-drm-lease, agl-ic, agl-pipewire, agl-selinux]
-agl-xen-image-test: [agl-xen]
-agl-uhmi-demo-ivi-demo-flutter: [agl-uhmi-demo]
