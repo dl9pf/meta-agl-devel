@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: MIT
+# Images owned by meta-agl-devel. Schema and tools: https://github.com/dl9pf-agl/agl-ci (ci/scripts/_matrix.py).
+# Tier presets come from agl-ci (ci/matrix-defaults.yaml): `tiers: gate` = pull request gate on qemux86-64, all listed machines
+# nightly, on release and on dispatch. The machines are listed because these images exist only on some of the CI machines.
+# `needs` makes a run of a repo it needs also build this repo's images (downstream chain, agl-ci chapter 13).
+needs: [meta-agl-demo]
+machine_eula: {}
+
+images:
+  - {target: agl-xen-image-test, features: [agl-xen], sdk: false, machines: [qemux86-64, raspberrypi5, sparrow-hawk], tiers: gate}
+  - {target: agl-host-image-drm-lease-test, features: [agl-drm-lease, agl-ic, agl-pipewire, agl-selinux], sdk: false, machines: [qemux86-64, raspberrypi5], tiers: gate}
+  - {target: lxc-host-image-minimal, features: [agl-drm-lease, agl-ic, agl-pipewire, agl-selinux], sdk: false, machines: [qemux86-64, raspberrypi5], tiers: dispatch}
+  - {target: agl-instrument-cluster-container-demo, features: [agl-drm-lease, agl-ic, agl-pipewire, agl-selinux], sdk: false, machines: [qemux86-64, raspberrypi5], tiers: dispatch}
+
+# yocto-check-layer: the layers of this repo are listed so that `make validate CHECK_LAYERS="meta-agl-devel/meta-agl-xen ..."`
+# and CHECK_LAYERS=all can check them. NOT active in CI yet: `default` stays empty until the layers pass; then list them there
+# and every run in scope (also a meta-agl or meta-agl-demo run, through `needs`) checks them in addition to meta-agl-core.
+check_layers:
+  default: []
+  dependency_roots:
+    - meta-agl-devel
+  layers:
+    - meta-agl-devel/meta-agl-ic-container
+    - meta-agl-devel/meta-agl-xen
+    - meta-agl-devel/meta-uhmi: {additional_layers: [meta-agl/meta-agl-core]}
+    - meta-agl-devel/meta-agl-rdp: {additional_layers: [meta-agl/meta-agl-core]}
+    - meta-agl-devel/meta-agl-ros2: {additional_layers: [meta-agl/meta-agl-core]}
+    - meta-agl-devel/meta-agl-test: {additional_layers: [meta-agl/meta-agl-core]}
+    - meta-agl-devel/meta-offline-voice-agent
+    - meta-agl-devel/meta-virtio
