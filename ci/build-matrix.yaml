@@ -12,7 +12,7 @@ images:
   - {target: lxc-host-image-minimal, features: [agl-drm-lease, agl-ic, agl-pipewire, agl-selinux], sdk: false, machines: [qemux86-64], tiers: dispatch}
   - {target: agl-instrument-cluster-container-demo, features: [agl-drm-lease, agl-ic, agl-pipewire, agl-selinux], sdk: false, machines: [qemux86-64], tiers: dispatch}
 
-# yocto-check-layer: the layers of this repo are listed so that `make validate CHECK_LAYERS="meta-agl-devel/meta-agl-xen ..."`
+# yocto-check-layer: the layers of this repo are listed so that `CHECK_LAYERS="meta-agl-devel/meta-agl-xen ..." ci/scripts/validate.sh` of agl-ci
 # and CHECK_LAYERS=all can check them. NOT active in CI yet: `default` stays empty until the layers pass; then list them there
 # and every run in scope (also a meta-agl or meta-agl-demo run, through `needs`) checks them in addition to meta-agl-core.
 check_layers:
