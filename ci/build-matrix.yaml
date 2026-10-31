@@ -7,7 +7,9 @@ needs: [meta-agl-demo]
 machine_eula: {}
 
 images:
-  - {target: agl-xen-image-test, features: [agl-xen], sdk: false, machines: [qemux86-64], tiers: nightly}
+  # Skipped 2026-10-31 (`tiers: []` = never built by CI): on qemux86-64 the Xen guest machine falls back to virtio-aarch64, most likely because kas writes
+  # MACHINE after the feature entries while agl-xen.inc includes agl-xen-${MACHINE}.inc earlier (not tested); do_rootfs then fails after 6 h on bzImage-virtio-aarch64.bin.
+  - {target: agl-xen-image-test, features: [agl-xen], sdk: false, machines: [qemux86-64], tiers: []}
   - {target: agl-host-image-drm-lease-test, features: [agl-drm-lease, agl-ic, agl-pipewire, agl-selinux], sdk: false, machines: [qemux86-64], tiers: dispatch}
   - {target: lxc-host-image-minimal, features: [agl-drm-lease, agl-ic, agl-pipewire, agl-selinux], sdk: false, machines: [qemux86-64], tiers: dispatch}
   - {target: agl-instrument-cluster-container-demo, features: [agl-drm-lease, agl-ic, agl-pipewire, agl-selinux], sdk: false, machines: [qemux86-64], tiers: dispatch}
